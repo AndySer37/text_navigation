@@ -12,11 +12,13 @@
 
     <!-- Run on local (laptop) -->
         <node if="$(arg local)" ns="$(arg veh)" pkg="text_navigation" type="cnn_ncs.py" name="cnn_ncs" output="screen" clear_params="true" required="true">
+            <param name="~veh_name" type="str" value="$(arg veh)"/>
         </node>
 
     <!-- Run on remote (vehicle) -->
     <include unless="$(arg local)" file="$(find duckietown)/machines"/>
         <node unless="$(arg local)" ns="$(arg veh)" machine="$(arg veh)" pkg="text_navigation" type="cnn_ncs.py" name="cnn_ncs" output="screen" clear_params="true" required="true">
+            <param name="~veh_name" type="str" value="$(arg veh)"/>
         </node> 
 
 

@@ -25,7 +25,7 @@
 
     
     <!-- start basic args -->
-    <!-- 
+    
     <include file="$(find duckietown_demos)/launch/master.launch">
         <arg name="veh" value="$(arg veh)"/>
         <arg name="camera" default="false"/>
@@ -38,7 +38,7 @@
                 <arg name="navigation" default="true"/>
         <arg name="/lane_following/stop_line_filter" default="true" /> 
     </include> 
-    -->
+    
 
     <remap from="cnn_ncs/ncs_image_rect" to="camera_node/image/rect" />
     <remap from="cnn_ncs/mode" to="fsm_node/mode" />

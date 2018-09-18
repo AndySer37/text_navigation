@@ -21,7 +21,7 @@ class CNN_node():
         self.image_sub = rospy.Subscriber("~ncs_image_rect", Image, self.img_cb,queue_size = 5)
         self.mode_sub = rospy.Subscriber("~mode", FSMState, self.fsm_mode)
         self.image_pub = rospy.Publisher('image_with_box', Image, queue_size=5)
-        
+        self.veh_name = rospy.get_param('~veh_name')
         #for img_cb
         self.bridge = CvBridge()
         self.cv_image = 0
@@ -40,7 +40,7 @@ class CNN_node():
         self.start = 0
         self.time = 0
         self.n = 1
-        self.stop_line = 1  ### 0 
+        self.stop_line = 0  ### 0 
         self.deviceCheck()
     def deviceCheck(self):
         #check device is plugged in
@@ -107,7 +107,7 @@ class CNN_node():
                 if 2*h < w and h*w < 10000 and h*w > 1000:
                     point_check = True
                     for p in point_list:
-                        print p
+                        #print p
                         if  p[0]-20 < x < p[0]+20 and p[1]-20 < y < p[1]+20:
                             point_check = False
                     if point_check == True:
@@ -161,13 +161,11 @@ class CNN_node():
             if output[top1] >= 0.9:
                 print 'class: ',top1
                 print output[top1]             
-            
 
-            '''
+            
             if output[top1] >= 0.9:
-                print 'class: ',top1
                 if top1 == 4 or top1 == 2:
-                    turn_right = rospy.ServiceProxy('/pbody/open_loop_intersection_control_node/turn_right', Empty)
+                    turn_right = rospy.ServiceProxy('/' + self.veh_name + '/open_loop_intersection_control_node/turn_right', Empty)
                     turn = turn_right()
                     #topomap_action = rospy.ServiceProxy('topo_map_action', actions)
                     #action = actions()
@@ -175,7 +173,7 @@ class CNN_node():
                     #resp = topomap_action(action)
                     #print "target node: ", resp.target_state
                 elif top1 == 3:
-                    turn_left = rospy.ServiceProxy('/pbody/open_loop_intersection_control_node/turn_left', Empty)
+                    turn_left = rospy.ServiceProxy('/' + self.veh_name + '/open_loop_intersection_control_node/turn_left', Empty)
                     turn = turn_left()
                     # topomap_action = rospy.ServiceProxy('topo_map_action', actions)
                     # action = actions()
@@ -183,7 +181,7 @@ class CNN_node():
                     # resp = topomap_action(action)
                     # print "target node: ", resp.target_state
                 elif top1 == 1 or top1 == 5:
-                    turn_forward = rospy.ServiceProxy('/pbody/open_loop_intersection_control_node/turn_forward', Empty)
+                    turn_forward = rospy.ServiceProxy('/' + self.veh_name + '/open_loop_intersection_control_node/turn_forward', Empty)
                     turn = turn_forward()
                     # topomap_action = rospy.ServiceProxy('topo_map_action', actions)
                     # action = actions()
@@ -193,8 +191,8 @@ class CNN_node():
                 
                 self.stop_line = 0
                 break
-                print "stop text spotting"
-            '''
+        print "stop text spotting"
+            
         self.cv_img_crop = []
 
     def onShutdown(self):
