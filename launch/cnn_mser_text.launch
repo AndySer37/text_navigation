@@ -1,0 +1,51 @@
+<launch>
+    <arg name="veh"/>
+    <arg name="local" default="true" doc="true for running everything you possibly can on laptop. false for everything running on vehicle."/>
+    <arg name="param_file_name" default="default" doc="Specify a param file. ex:megaman." />
+    <arg name="camera" default="true" doc="camera set to false means only apriltags no camera nodes are launched"/>
+        <arg name="config" default="baseline" doc="Specify a config."/>
+    <arg name="camera_name" default="atlas" doc="location of the camera" />
+    <arg name="live" default="true" doc="live set to false means we don't run the actual camera (i.e. running from a log file" />
+    <arg name="width" default="640" doc="width of compressed image"/>
+    <arg name="height" default="480" doc="width of compressed image"/>  
+    <arg name="tango" default="false" doc="subscribe tango image"/>      
+
+    
+     <!-- Camera -->
+        <include if="$(arg camera)" file="$(find duckietown)/launch/camera.launch">
+                <arg name="veh" value="$(arg veh)"/>
+                <arg name="local" value="$(arg local)"/>
+                <arg name="config" value="$(arg config)"/>
+                <arg name="param_file_name" value="$(arg param_file_name)"/>
+                <arg name="raw" value="true"/>
+                <arg name="cam_info" value="true"/>
+                <arg name="live" value="$(arg live)"/>
+                <arg name="rect" value="true" />
+        </include>
+
+    
+    <!-- start basic args -->
+    <!-- 
+    <include file="$(find duckietown_demos)/launch/master.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="camera" default="false"/>
+        <arg name="visualization" default="true" />
+        <arg name="verbose" default="false" />
+        <arg name="param_file_name" default="default" />
+        <arg name="line_detector_param_file_name" default="default" />
+        <arg name="anti_instagram" default="true" />
+                <arg name="LED" default="false" />
+                <arg name="navigation" default="true"/>
+        <arg name="/lane_following/stop_line_filter" default="true" /> 
+    </include> 
+    -->
+
+    <remap from="cnn_ncs/ncs_image_rect" to="camera_node/image/rect" />
+    <remap from="cnn_ncs/mode" to="fsm_node/mode" />
+    <include file="$(find text_navigation)/launch/cnn_ncs.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="local" value="$(arg local)"/>
+        <arg name="param_file_name" value="$(arg param_file_name)"/>
+    </include>
+
+</launch>

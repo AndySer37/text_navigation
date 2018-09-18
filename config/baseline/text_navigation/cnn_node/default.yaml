@@ -1,0 +1,33 @@
+# default parameters for text_navigation/cnn_node
+
+navigation_map:
+  0_FRAZZOLI: right
+  1_TEDRAKE: left
+  2_ASADA: left
+  3_BREAZEAL: right
+  4_DUBOWSKY: right
+  5_HERR: left
+  6_HOBURG: right
+  7_HOGAN: right
+  8_IAGNEMMA: right
+  9_KAELBLING: right
+  10_LOZANO: left
+  11_KIM: right
+  12_REIF: left
+  13_WALTZ: right
+  14_PERAIRE: left
+  15_CHANDRA: left
+  16_KASAN: right
+  17_MICALI: right
+  18_CHEN: left
+  19_HOSOI: right
+  20_RUS: left
+  21_HOW: left
+  22_ROY: left
+  23_SHAH: right
+  24_WILLIAMS: left
+  25_LEONARD: right
+  26_BROOKS: left
+  27_KARAMAN: left
+
+
